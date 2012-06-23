@@ -1,0 +1,46 @@
+<h1>Show promotion</h1>
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Name:</b>
+  <%= @promotion.name %>
+</p>
+
+<p>
+  <b>Date:</b>
+  <%= @promotion.start_date.strftime(("%m/%d/%Y %I:%M")) %>
+</p>
+
+<p>
+<b>Date:</b>
+  <%= @promotion.end_date.strftime(("%m/%d/%Y %I:%M")) %>
+</p>
+
+<p>
+  <b>Title:</b>
+  <%= @promotion.title %>
+</p>
+<p>
+  <b>Sub Title:</b>
+  <%= @promotion.sub_title %>
+</p>
+<p>
+  <b>Subject:</b>
+  <%= @promotion.subject %>
+</p>
+
+<p>
+  <b>Description:</b>
+  <%= @promotion.description %>
+</p>
+<p>
+  <b>Business/ Product Bundle</b>
+  </br>
+  <%@promotion.businesses_promotions.each do |bp| %>
+  <%=bp.business.name%>/ <%=bp.product_bundle.name%>
+  </br>
+  <%end%>
+</p>
+
+<%= link_to 'Edit', edit_promotion_path(@promotion) %> |
+<%= link_to 'Back', promotions_path %>

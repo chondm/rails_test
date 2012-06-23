@@ -1,0 +1,18 @@
+login: &login
+  adapter: postgresql
+  username: postgres
+  password: postgres
+  host: localhost
+  port: 5432
+  pool: 5
+  timeout: 5000
+
+development:
+  <<: *login
+  database: promotion_dev_1
+production:
+  <<: *login
+  database: promotion_pro
+test: &test
+  <<: *login
+  database: promotion_test

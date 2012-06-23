@@ -1,0 +1,31 @@
+<h1>Listing promotions</h1>
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Start Date</th>
+    <th>End Date</th>
+    <th>Title</th>
+    <th>Sub Title</th>
+    <th>Subject</th>
+    <th>Description</th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @promotions.each do |promotion| %>
+  <tr>
+    <td><%= promotion.name %></td>
+    <td><%= promotion.start_date.strftime(("%m/%d/%Y %I:%M")) %></td>
+    <td><%= promotion.end_date.strftime(("%m/%d/%Y %I:%M")) %></td>
+    <td><%= promotion.title %></td>
+    <td><%= promotion.sub_title %></td>
+    <td><%= promotion.subject %></td>
+    <td><%= promotion.description %></td>
+    <td><%= link_to 'Show', promotion %></td>
+    <td><%= link_to 'Edit', edit_promotion_path(promotion) %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />

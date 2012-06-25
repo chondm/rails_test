@@ -18,6 +18,10 @@
   <dd><%= @promotion.subject %></dd>
   <dt><strong><%= model_class.human_attribute_name(:description) %>:</strong></dt>
   <dd><%= @promotion.description %></dd>
+  <dt><strong>Business/ Product Bundle:</strong></dt>
+  <%@promotion.businesses_promotions.each do |businesses_promotion|%>
+  <dd><%= [businesses_promotion.business.name, businesses_promotion.product_bundle.name].join("/ ") %></dd>
+  <%end%>
   <dt><strong><%= model_class.human_attribute_name(:redemption_detail) %>:</strong></dt>
   <dd><%= @promotion.redemption_detail %></dd>
 </dl>

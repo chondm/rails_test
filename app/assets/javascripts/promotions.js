@@ -1,14 +1,14 @@
  
 window.promotion = {
   setup: function(options){
-    this.selectBusinessSection = $('.businesses-promotions-section .businesses-select');
-    this.selectProductBundlesSection = $('.businesses-promotions-section .product-bundles-select');
+  	this.businessPromotionSection = $('.businesses-promotions-section');
+    this.selectBusinessSection = this.businessPromotionSection.find('.businesses-select');
+    this.selectProductBundlesSection = this.businessPromotionSection.find('.product-bundles-select');
     //stubs to add manual class
-    $(".businesses-promotions-section .fields").first().addClass("left");
+    this.businessPromotionSection.find(".fields").first().addClass("left");
     //init change event of business dropdow list
-    this.selectBusiness(options["pathOfBusiness"]);
-    this.selectProductBundles(options["pathOfProductBundle"]);
-    $('.typeahead').typeahead()
+    this.selectBusiness(options["path"]);
+    this.selectProductBundles(options["path"]);
   },
   selectProductBundles: function(path){
     this.selectProductBundlesSection.find("select").change(function(e){
@@ -21,8 +21,10 @@ window.promotion = {
 	      dataType: "json",
 	      success: function(res, status) {
 	      	if(status == "success"){
-            target.parent().parent().next().find(".retail-price-value").html(res["retail_price"]);
-						target.parent().parent().next().next().find(".discounted-price-value").html(res["discounted_price"]);
+	      	  var currentId = target.parent().attr("data-object-id");
+	      	  var currentObject = promotion.businessPromotionSection.find("div[data-object='business-promotion-" + currentId + "']");
+            currentObject.find(".retail-price-value").html(res["retail_price"]);
+			  currentObject.find(".discounted-price-value").html(res["discounted_price"]);
 	      	}else{
             alert("Some thing went wrong. Please try again.");
 	      	}
@@ -38,7 +40,6 @@ window.promotion = {
     this.selectBusinessSection.find("select").change(function(e){
       var businessId = $(this).val();
       var target = $(e.target);
-      console.log(target)
       $.ajax({
 	      type: 'GET',
 	      url: path,
@@ -51,10 +52,12 @@ window.promotion = {
 							var item = res["product_bundles"][i];
 						  options+= "<option value=" + item[1]+">"+item[0]+"</option>";
 						}
-						var select_ = target.parent().parent().next().find("select");
-						select_.html(options);
-						target.parent().parent().next().next().find(".retail-price-value").html(res["retail_price"]);
-						target.parent().parent().next().next().next().find(".discounted-price-value").html(res["discounted_price"]);
+						var currentId = target.parent().attr("data-object-id");
+			      var currentObject = promotion.businessPromotionSection.find("div[data-object='business-promotion-" + currentId + "']");
+						var selectProductBundle = currentObject.find(".product-bundles-select").find("select");
+						selectProductBundle.html(options);
+						currentObject.find(".retail-price-value").html(res["retail_price"]);
+			    	currentObject.find(".discounted-price-value").html(res["discounted_price"]);
 	      	}else{
             alert("Some thing went wrong. Please try again.");
 	      	}

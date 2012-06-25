@@ -31,22 +31,16 @@
   </div>
   <div class='line'></div>
   <br/>
-  <div class="row">
+  <div class="row businesses-promotions-section">
     <%= f.simple_fields_for :businesses_promotions, :input_html => {:class => "trucntt"} do |businesses_promotion| %>
       <br/>
-      <div class="span6">
+      <div class="span6" data-object = "business-promotion-<%=businesses_promotion.object.id%>" >
         <h3> <%=businesses_promotion.object.business.name%> Details</h3>
-        <div class="control-group">
-          <%= f.label :business_name, :class => 'control-label' %>
-          <div class="controls">
-            <%= f.text_field :name %>
-          </div>
-        </div>
         <div class='field businesses-select'>
           <%= businesses_promotion.input :business_id do %>
             <div class="control-group">
-              <div class="controls">
-                <%=businesses_promotion.select :business_id, options_for_select(Business.all.collect{|b| [b.name,b.id]}, {:selected => businesses_promotion.object.business_id})%>
+              <div class="controls" data-object-id = "<%=businesses_promotion.object.id%>" >
+                <%=businesses_promotion.select :business_id, options_for_select(Business.all.collect{|b| [b.name,b.id]})%>
               </div>
             </div>
           <% end %>
@@ -54,8 +48,8 @@
         <div class="field product-bundles-select">
           <%= businesses_promotion.input :product_bundle_id do %>
             <div class="control-group">
-              <div class="controls">
-                <%=businesses_promotion.select :product_bundle_id, options_for_select(businesses_promotion.object.business.product_bundles.collect{|b| [b.name,b.id]}, {:selected => businesses_promotion.object.product_bundle_id, :class => "product-bundles-select"})%>
+              <div class="controls" data-object-id = "<%=businesses_promotion.object.id%>">
+                <%=businesses_promotion.select :product_bundle_id, options_for_select(businesses_promotion.object.business.product_bundles.collect{|b| [b.name,b.id]})%>
               </div>
             </div>
           <% end %>
@@ -63,13 +57,13 @@
         <div class="control-group">
           <label class="control-label">Retail Price</label>
           <div class="controls">
-            <span class="input-xlarge uneditable-input"><%= businesses_promotion.object.product_bundle.retail_price %></span>
+            <span class="input-xlarge uneditable-input retail-price-value"><%= businesses_promotion.object.product_bundle.retail_price %></span>
           </div>
         </div>
         <div class="control-group">
           <label class="control-label">Discounted Price</label>
           <div class="controls">
-            <span class="input-xlarge uneditable-input"><%= businesses_promotion.object.product_bundle.discounted_price %></span>
+            <span class="input-xlarge uneditable-input discounted-price-value"><%= businesses_promotion.object.product_bundle.discounted_price %></span>
           </div>
         </div>
       </div>
@@ -92,7 +86,12 @@
 <% end %>
 <script type='text/javascript'>
   $(function() {
-    promotion.setup({"pathOfBusiness" : '<%=product_bundles_path%>', 
-      "pathOfProductBundle" : '<%=product_bundles_path%>'});
+    promotion.setup({"path" : '<%=product_bundles_path%>'});
+    <%@promotion.businesses_promotions.each do |bp|%>
+      var currentObject = promotion.businessPromotionSection.find("div[data-object='business-promotion-" + "<%=bp.id%>" + "']");
+      currentObject.find(".businesses-select").find("option[value='"+"<%=bp.business.id%>"+"']").attr("selected", "selected");
+      currentObject.find(".product-bundles-select").find("option[value='"+"<%=bp.product_bundle.id%>"+"']").attr("selected", "selected");
+    <%end%>
   });
+  
 </script>

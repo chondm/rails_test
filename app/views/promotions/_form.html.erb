@@ -1,67 +1,98 @@
-<%= simple_nested_form_for(@promotion) do |f| %>
-  <div class='basic'>
-    <div class="field">
-      <%= f.input :name, :input_html => { "data-provide" => "typeahead" }%>
+<%= simple_nested_form_for @promotion, :html =>{:class => "form-horizontal"} do |f| %>
+  <div class="control-group">
+    <%= f.label :name, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :name %>
     </div>
-    <div class="field">
-      <%= f.input :start_date, :as => :date %>
+  </div>
+  <div class="control-group">
+    <%= f.label :title, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :title %>
     </div>
-    <div class="field">
-      <%= f.input :end_date, :as => :date %>
+  </div>
+  <div class="control-group">
+    <%= f.label :sub_title, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :sub_title %>
     </div>
-    <div class="field">
-      <%= f.input :title %>
+  </div>
+  <div class="control-group">
+    <%= f.label :subject, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :subject %>
     </div>
-    <div class="field">
-      <%= f.input :sub_title %>
-    </div>
-    <div class="field">
-      <%= f.input :subject %>
-    </div>
-    <div class="field">
-      <%= f.input :description %>
+  </div>
+  <div class="control-group">
+    <%= f.label :description, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :description %>
     </div>
   </div>
   <div class='line'></div>
-  <div class="businesses-promotions-section">
+  <br/>
+  <div class="row">
     <%= f.simple_fields_for :businesses_promotions, :input_html => {:class => "trucntt"} do |businesses_promotion| %>
-      <div class='name'>
-        <%=businesses_promotion.object.business.name%> Details
-      </div>
-      <div class='field businesses-select'>
-        <%= businesses_promotion.input :business_id do %>
-          <%=businesses_promotion.select :business_id, options_for_select(Business.all.collect{|b| [b.name,b.id]}, {:selected => businesses_promotion.object.business_id})%>
-        <% end %>
-      </div>
-      <div class="field product-bundles-select">
-        <%= businesses_promotion.input :product_bundle_id do %>
-          <%=businesses_promotion.select :product_bundle_id, options_for_select(businesses_promotion.object.business.product_bundles.collect{|b| [b.name,b.id]}, {:selected => businesses_promotion.object.product_bundle_id, :class => "product-bundles-select"})%>
-        <% end %>
-      </div>
-      <div class="field retail-price">
-        <label>Retail Price</label>
-        <div class='retail-price-value'><%= businesses_promotion.object.product_bundle.retail_price %></div>
-      </div>
-      <div class="field discounted-price">
-        <label>Discounted Price</label>
-        <div class='discounted-price-value'><%= businesses_promotion.object.product_bundle.discounted_price %></div>
+      <br/>
+      <div class="span6">
+        <h3> <%=businesses_promotion.object.business.name%> Details</h3>
+        <div class="control-group">
+          <%= f.label :business_name, :class => 'control-label' %>
+          <div class="controls">
+            <%= f.text_field :name %>
+          </div>
+        </div>
+        <div class='field businesses-select'>
+          <%= businesses_promotion.input :business_id do %>
+            <div class="control-group">
+              <div class="controls">
+                <%=businesses_promotion.select :business_id, options_for_select(Business.all.collect{|b| [b.name,b.id]}, {:selected => businesses_promotion.object.business_id})%>
+              </div>
+            </div>
+          <% end %>
+        </div>
+        <div class="field product-bundles-select">
+          <%= businesses_promotion.input :product_bundle_id do %>
+            <div class="control-group">
+              <div class="controls">
+                <%=businesses_promotion.select :product_bundle_id, options_for_select(businesses_promotion.object.business.product_bundles.collect{|b| [b.name,b.id]}, {:selected => businesses_promotion.object.product_bundle_id, :class => "product-bundles-select"})%>
+              </div>
+            </div>
+          <% end %>
+        </div>
+        <div class="control-group">
+          <label class="control-label">Retail Price</label>
+          <div class="controls">
+            <span class="input-xlarge uneditable-input"><%= businesses_promotion.object.product_bundle.retail_price %></span>
+          </div>
+        </div>
+        <div class="control-group">
+          <label class="control-label">Discounted Price</label>
+          <div class="controls">
+            <span class="input-xlarge uneditable-input"><%= businesses_promotion.object.product_bundle.discounted_price %></span>
+          </div>
+        </div>
       </div>
     <% end %>
-    <p><%#= f.link_to_add "Add a businesses_promotions", :businesses_promotions %></p>
   </div>
-  <div class='line more'></div>
-  <div class="field basic">
-    <%= f.input :redemption_detail %>
+
+  <div class='line'></div>
+  <div class="control-group">
+    <%= f.label :redemption_detail, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_area :redemption_detail, :size => "20x10" %>
+    </div>
   </div>
-  <br/>
-  
-  <div class="actions">
-    <%= f.submit %>
+  <div class="form-actions">
+    <%= f.submit nil, :class => 'btn btn-primary' %>
+    <%= link_to 'Cancel', promotions_path, :class => 'btn' %>
   </div>
+
+
 <% end %>
 <script type='text/javascript'>
   $(function() {
     promotion.setup({"pathOfBusiness" : '<%=product_bundles_path%>', 
-                     "pathOfProductBundle" : '<%=product_bundles_path%>'});
+      "pathOfProductBundle" : '<%=product_bundles_path%>'});
   });
 </script>

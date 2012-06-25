@@ -1,31 +1,43 @@
-<h1>Listing promotions</h1>
-
-<table>
-  <tr>
-    <th>Name</th>
-    <th>Start Date</th>
-    <th>End Date</th>
-    <th>Title</th>
-    <th>Sub Title</th>
-    <th>Subject</th>
-    <th>Description</th>
-    <th></th>
-    <th></th>
-  </tr>
-
-<% @promotions.each do |promotion| %>
-  <tr>
-    <td><%= promotion.name %></td>
-    <td><%= promotion.start_date.strftime(("%m/%d/%Y %I:%M")) %></td>
-    <td><%= promotion.end_date.strftime(("%m/%d/%Y %I:%M")) %></td>
-    <td><%= promotion.title %></td>
-    <td><%= promotion.sub_title %></td>
-    <td><%= promotion.subject %></td>
-    <td><%= promotion.description %></td>
-    <td><%= link_to 'Show', promotion %></td>
-    <td><%= link_to 'Edit', edit_promotion_path(promotion) %></td>
-  </tr>
-<% end %>
+<%- model_class = Promotion.new.class -%>
+<div class="page-header">
+  <h1><%=t '.title', :default => model_class.model_name.human.pluralize %></h1>
+</div>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th><%= model_class.human_attribute_name(:id) %></th>
+      <th><%= model_class.human_attribute_name(:name) %></th>
+      <th><%= model_class.human_attribute_name(:title) %></th>
+      <th><%= model_class.human_attribute_name(:sub_title) %></th>
+      <th><%= model_class.human_attribute_name(:subject) %></th>
+      <th><%= model_class.human_attribute_name(:description) %></th>
+      <th><%=t '.actions', :default => t("helpers.actions") %></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @promotions.each do |promotion| %>
+      <tr>
+        <td><%= promotion.id  %></td>
+        <td><%= link_to promotion.name, promotion_path(promotion)%></td>
+        <td><%= promotion.title %></td>
+        <td><%= promotion.sub_title %></td>
+        <td><%= promotion.subject %></td>
+        <td><%= promotion.description %></td>
+        <td>
+          <%= link_to t('.edit', :default => t("helpers.links.edit")),
+            edit_promotion_path(promotion), :class => 'btn btn-mini' %>
+          
+          <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+            promotion_path(promotion),
+            :method => :delete,
+            :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')),
+            :class => 'btn btn-mini btn-danger' %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
 </table>
 
-<br />
+<%= link_to t('.new', :default => t("helpers.links.new")),
+  new_promotion_path,
+  :class => 'btn btn-primary' %>

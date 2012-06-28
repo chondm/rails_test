@@ -16,3 +16,4 @@
 //= require_tree .
 //= require jquery_nested_form
 //= require bootstrap-typeahead
+//= require bootstrap-datepicker

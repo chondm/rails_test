@@ -6,6 +6,18 @@
     </div>
   </div>
   <div class="control-group">
+    <%= f.label :start_date, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.input :start_date, :as => "string", :input_html => {:class => "date datepicker"},  :label => false%>
+    </div>
+  </div>
+  <div class="control-group">
+    <%= f.label :end_date, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.input :end_date, :as => "string", :input_html => {:class => "date datepicker"}, :label => false%>
+    </div>
+  </div>
+  <div class="control-group">
     <%= f.label :title, :class => 'control-label' %>
     <div class="controls">
       <%= f.text_field :title %>
@@ -87,6 +99,7 @@
 <script type='text/javascript'>
   $(function() {
     promotion.setup({"path" : '<%=product_bundles_path%>'});
+    $('.datepicker').datepicker();
     <%@promotion.businesses_promotions.each do |bp|%>
       var currentObject = promotion.businessPromotionSection.find("div[data-object='business-promotion-" + "<%=bp.id%>" + "']");
       currentObject.find(".businesses-select").find("option[value='"+"<%=bp.business.id%>"+"']").attr("selected", "selected");

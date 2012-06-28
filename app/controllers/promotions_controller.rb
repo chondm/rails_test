@@ -58,6 +58,8 @@ class PromotionsController < ApplicationController
   # PUT /promotions/1.json
   def update
     @promotion = Promotion.find(params[:id])
+    @promotion.start_date = Time.parse(params[:promotion][:start_date])
+    @promotion.end_date = Time.parse(params[:promotion][:end_date])
 
     respond_to do |format|
       if @promotion.update_attributes(params[:promotion])

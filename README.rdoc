@@ -1,6 +1,6 @@
 GuideLine
 Step 1. 
-  Clone code from git@github.com:chondm/david_rails_test.git
+  Clone code from git@github.com:chondm/rails_test.git
   Check out edit_promotion branch
 Step 1. Prepare database
   rake db:create
